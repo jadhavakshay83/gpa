@@ -23,23 +23,22 @@
             android:textColor="#424242"/>
 
         <RelativeLayout
+            android:id="@+id/interactive_img"
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="600dp"
             android:layout_margin="12dp"
-            android:background="@drawable/ccs_1">
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/clickable_area"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:background="#66FE2170">
+            </LinearLayout>
 
         </RelativeLayout>
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Continue"
-            android:textSize="18sp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:layout_gravity="bottom"/>
 
     </LinearLayout>
 
