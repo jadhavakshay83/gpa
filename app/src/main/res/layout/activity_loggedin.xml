@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoggedinActivity">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:src="@drawable/shield"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Graphical Authentication Successful!"
+            android:textSize="26dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_green_dark"/>
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#424242"/>
+
+        <TextView
+            android:id="@+id/textEmail"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#424242"/>
+
+        <TextView
+            android:id="@+id/textPhone"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#424242"/>
+
+        <Button
+            android:layout_marginTop="40dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Logout"
+            android:textSize="18sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

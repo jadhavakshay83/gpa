@@ -48,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
                            dataBundle.putString(DBHelper.USERS_COLUMN_EMAIL, inputEmail);
                            dataBundle.putString(DBHelper.USERS_COLUMN_GPA, gpa);
                            if(authType.equals(Constants.PVS)) {
-                               Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+                               Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
                                intent.putExtras(dataBundle);
                                startActivity(intent);
                            } else if(authType.equals(Constants.CPS)) {
-                               Intent intent = new Intent(getApplicationContext(), ClickimgActivity.class);
+                               Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
                                intent.putExtras(dataBundle);
                                startActivity(intent);
                            }
