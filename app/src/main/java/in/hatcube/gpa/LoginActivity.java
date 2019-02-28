@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                                intent.putExtras(dataBundle);
                                startActivity(intent);
                            } else if(authType.equals(Constants.CPS)) {
-                               Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
+                               Intent intent = new Intent(getApplicationContext(), CcsActivity.class);
                                intent.putExtras(dataBundle);
                                startActivity(intent);
                            }

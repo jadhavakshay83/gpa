@@ -26,7 +26,8 @@
         <activity android:name=".LogupActivity" />
         <activity android:name=".UploadActivity" />
         <activity android:name=".ClickimgActivity" />
-        <activity android:name=".LoggedinActivity"></activity>
+        <activity android:name=".LoggedinActivity" />
+        <activity android:name=".CcsActivity"></activity>
     </application>
 
 </manifest>

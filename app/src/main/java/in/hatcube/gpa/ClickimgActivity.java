@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ClickimgActivity extends Activity {
@@ -84,7 +85,9 @@ public class ClickimgActivity extends Activity {
         // Add 1 to the result to get a number from the required range
         // (i.e., [1 - 10]).
         number += 1;
-        if(number == except || number == except1){
+        if(number == except){
+            getRandomNumber(bound,except,except1);
+        } else if(number == except1){
             getRandomNumber(bound,except,except1);
         }
         return number;
@@ -98,21 +101,21 @@ public class ClickimgActivity extends Activity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(500,700);
         switch (position) {
             case 1:
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 break;
             case 2:
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 clickableArea.setLayoutParams(params);
                 break;
             case 3:
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 clickableArea.setLayoutParams(params);
                 break;
             case 4:
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 clickableArea.setLayoutParams(params);
                 break;
