@@ -69,11 +69,19 @@ public class LogupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Check pass and confPass are same
                 if(pass.getText().toString().equals(confPass.getText().toString())) {
+                    Bundle dataBundle = new Bundle();
+                    dataBundle.putString(DBHelper.USERS_COLUMN_NAME, name.getText().toString());
+                    dataBundle.putString(DBHelper.USERS_COLUMN_EMAIL, email.getText().toString());
+                    dataBundle.putString(DBHelper.USERS_COLUMN_PHONE, phone.getText().toString());
+                    dataBundle.putString(DBHelper.USERS_COLUMN_PASSWORD, pass.getText().toString());
+                    dataBundle.putString(DBHelper.USERS_COLUMN_AUTH, selectedTechnique);
                     if(selectedTechnique.equals(Constants.PVS)) {
                         Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+                        intent.putExtras(dataBundle);
                         startActivity(intent);
                     } else if(selectedTechnique.equals(Constants.CPS)) {
                         Intent intent = new Intent(getApplicationContext(), ClickimgActivity.class);
+                        intent.putExtras(dataBundle);
                         startActivity(intent);
                     }
                 } else {

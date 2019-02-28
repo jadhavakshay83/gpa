@@ -46,10 +46,11 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/pvc_logup"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Continue"
+            android:text="Submit"
             android:textSize="18sp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"

@@ -1,5 +1,6 @@
 package in.hatcube.gpa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,19 +13,32 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
-public class ClickimgActivity extends AppCompatActivity {
+public class ClickimgActivity extends Activity {
 
     RelativeLayout interactiveImg;
     LinearLayout clickableArea;
     int firstImg = 0,secondImg = 0,thirdImg = 0,firstImgClick,secondImgClick,thirdImgClick;
     boolean clickOne, clickTwo;
+    private DBHelper mydb ;
+    private Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clickimg);
+
+        //Initialize database
+        mydb = new DBHelper(this);
+
+        //Get user input data
+        extras = getIntent().getExtras();
 
         //Set any random image as background
         interactiveImg = findViewById(R.id.interactive_img);
@@ -41,18 +55,7 @@ public class ClickimgActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(clickOne && clickTwo) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                    builder.setTitle("Success!");
-//                    builder.setMessage("Sign Up Successful, Please login to continue");
-//                    builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-//                        }
-//                    });
-//                    AlertDialog dialog = builder.create();
-//                    dialog.show();
+                    saveData();
                 }
 
                 if(secondImg == 0) {
@@ -117,6 +120,42 @@ public class ClickimgActivity extends AppCompatActivity {
                 break;
         }
         clickableArea.setLayoutParams(params);
+    }
+
+    public void saveData() {
+        JSONObject json = new JSONObject();
+        JSONArray imagesArr = new JSONArray();
+        JSONArray clicksArr = new JSONArray();
+        try {
+            imagesArr.put(firstImg);
+            imagesArr.put(secondImg);
+            imagesArr.put(thirdImg);
+            clicksArr.put(firstImgClick);
+            clicksArr.put(secondImgClick);
+            clicksArr.put(thirdImgClick);
+            json.put("selectedImages", imagesArr);
+            json.put("selectedClicks", clicksArr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String gpa = json.toString();
+        if(mydb.insertUser(extras.getString(DBHelper.USERS_COLUMN_NAME), extras.getString(DBHelper.USERS_COLUMN_PHONE), extras.getString(DBHelper.USERS_COLUMN_EMAIL), extras.getString(DBHelper.USERS_COLUMN_PASSWORD),Constants.CPS,gpa)){
+            Toast.makeText(getApplicationContext(), "New User created!", Toast.LENGTH_SHORT).show();
+        } else{
+            Toast.makeText(getApplicationContext(), "New User creation failure!", Toast.LENGTH_SHORT).show();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Sign Up Successful, Please login to continue")
+                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        AlertDialog d = builder.create();
+        d.setTitle("Success!");
+        d.show();
     }
 
 }
