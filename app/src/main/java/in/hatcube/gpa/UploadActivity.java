@@ -141,34 +141,6 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-//        //Create app folder if not exists
-//        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "gpa_files");
-//        boolean success = true;
-//        if (!folder.exists()) {
-//            success = folder.mkdirs();
-//        }
-//        if (success) {
-//            Log.d(TAG,"New folder craeted");
-//        } else {
-//            Log.d(TAG,"Somethin went");
-//        }
-//
-//        //Copy image to app folder
-//        String sourcePath = getRealPathFromURI(selectedImgUri);
-//        Log.d(TAG,sourcePath + '1');
-//        String sourceFileName = sourcePath.substring(sourcePath.lastIndexOf("/")+1);
-//        String uploadedUri = Environment.getExternalStorageDirectory()+ File.separator + "gpa_files/"+sourceFileName;
-//        File f = new File(uploadedUri);
-//        if (!f.exists())
-//        {
-//            try {
-//                f.createNewFile();
-//                copyFile(new File(sourcePath), f);
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
 
         //Insert data to database
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

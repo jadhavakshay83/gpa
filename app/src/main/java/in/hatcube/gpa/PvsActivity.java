@@ -113,6 +113,7 @@ public class PvsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
             intent.putExtras(dataBundle);
             startActivity(intent);
+            finish();
         } else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Graphical Password Authentication failed, Please try again!")
@@ -120,6 +121,7 @@ public class PvsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     });
 

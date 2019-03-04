@@ -97,6 +97,7 @@ public class CcsActivity extends Activity {
                     Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
                     intent.putExtras(dataBundle);
                     startActivity(intent);
+                    finish();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("Graphical Password Authentication failed, Please try again!")
@@ -104,6 +105,7 @@ public class CcsActivity extends Activity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
 
