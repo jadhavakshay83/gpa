@@ -1,6 +1,7 @@
 package in.hatcube.gpa;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +23,15 @@ public class LogupActivity extends AppCompatActivity {
     Button addGPA;
     TextInputEditText name, email, phone, pass, confPass;
     String selectedTechnique;
+    private DBHelper mydb ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logup);
+
+        //Initialize database
+        mydb = new DBHelper(this);
 
         // Initialize elements
         name        = findViewById(R.id.name);
@@ -69,20 +74,25 @@ public class LogupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Check pass and confPass are same
                 if(pass.getText().toString().equals(confPass.getText().toString())) {
-                    Bundle dataBundle = new Bundle();
-                    dataBundle.putString(DBHelper.USERS_COLUMN_NAME, name.getText().toString());
-                    dataBundle.putString(DBHelper.USERS_COLUMN_EMAIL, email.getText().toString());
-                    dataBundle.putString(DBHelper.USERS_COLUMN_PHONE, phone.getText().toString());
-                    dataBundle.putString(DBHelper.USERS_COLUMN_PASSWORD, pass.getText().toString());
-                    dataBundle.putString(DBHelper.USERS_COLUMN_AUTH, selectedTechnique);
-                    if(selectedTechnique.equals(Constants.PVS)) {
-                        Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
-                        intent.putExtras(dataBundle);
-                        startActivity(intent);
-                    } else if(selectedTechnique.equals(Constants.CPS)) {
-                        Intent intent = new Intent(getApplicationContext(), ClickimgActivity.class);
-                        intent.putExtras(dataBundle);
-                        startActivity(intent);
+                    Cursor user = mydb.getUser(email.getText().toString());
+                    if(user.getCount() != 0) {
+                        Toast.makeText(getApplicationContext(), "User with this email exits, Please use another!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Bundle dataBundle = new Bundle();
+                        dataBundle.putString(DBHelper.USERS_COLUMN_NAME, name.getText().toString());
+                        dataBundle.putString(DBHelper.USERS_COLUMN_EMAIL, email.getText().toString());
+                        dataBundle.putString(DBHelper.USERS_COLUMN_PHONE, phone.getText().toString());
+                        dataBundle.putString(DBHelper.USERS_COLUMN_PASSWORD, pass.getText().toString());
+                        dataBundle.putString(DBHelper.USERS_COLUMN_AUTH, selectedTechnique);
+                        if(selectedTechnique.equals(Constants.PVS)) {
+                            Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+                            intent.putExtras(dataBundle);
+                            startActivity(intent);
+                        } else if(selectedTechnique.equals(Constants.CPS)) {
+                            Intent intent = new Intent(getApplicationContext(), ClickimgActivity.class);
+                            intent.putExtras(dataBundle);
+                            startActivity(intent);
+                        }
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Password and Confirm password do not match!", Toast.LENGTH_LONG).show();

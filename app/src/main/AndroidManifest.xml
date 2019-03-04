@@ -27,7 +27,8 @@
         <activity android:name=".UploadActivity" />
         <activity android:name=".ClickimgActivity" />
         <activity android:name=".LoggedinActivity" />
-        <activity android:name=".CcsActivity"></activity>
+        <activity android:name=".CcsActivity" />
+        <activity android:name=".PvsActivity"></activity>
     </application>
 
 </manifest>

@@ -30,28 +30,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-public class UploadActivity extends AppCompatActivity {
+public class PvsActivity extends AppCompatActivity {
 
     private int PICK_IMAGE_REQUEST = 1;
     Button chooseImg,submit;
     ImageView choosenImg;
     Uri selectedImgUri;
     Bitmap selectedImg;
-    private DBHelper mydb ;
+    private String authImage ;
     private Bundle extras;
     public static String TAG = "UploadActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload);
-
-        //Initialize database
-        mydb = new DBHelper(this);
+        setContentView(R.layout.activity_pvs);
 
         //Get user input data
         extras = getIntent().getExtras();
+        try {
+            JSONObject gpa = new JSONObject(extras.getString(DBHelper.USERS_COLUMN_GPA));
+            authImage = gpa.getString("selectedImage");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        submit = findViewById(R.id.pvc_logup);
+        submit = findViewById(R.id.pvc_login);
         chooseImg = findViewById(R.id.chooseImg);
         chooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,96 +99,23 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    private void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!sourceFile.exists()) {
-            return;
-        }
 
-        FileChannel source = new FileInputStream(sourceFile).getChannel();
-        FileChannel destination = new FileOutputStream(destFile).getChannel();
-        if (destination != null && source != null) {
-            destination.transferFrom(source, 0, source.size());
-        }
-        if (source != null) {
-            source.close();
-        }
-        if (destination != null) {
-            destination.close();
-        }
-
-    }
-
-    private String getRealPathFromURI(Uri contentURI)
-    {
-        String result = null;
-
-        String[] proj = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = getContentResolver().query(contentURI, proj, null, null, null);
-
-        if (cursor == null)
-        { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        }
-        else
-        {
-            if(cursor.moveToFirst())
-            {
-                Log.d(TAG,"Look below");
-                Log.d(TAG,cursor.toString());
-                int idx = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
-                result = cursor.getString(idx);
-            }
-            cursor.close();
-        }
-        return result;
-    }
 
     public void saveData() {
-//        //Create app folder if not exists
-//        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "gpa_files");
-//        boolean success = true;
-//        if (!folder.exists()) {
-//            success = folder.mkdirs();
-//        }
-//        if (success) {
-//            Log.d(TAG,"New folder craeted");
-//        } else {
-//            Log.d(TAG,"Somethin went");
-//        }
-//
-//        //Copy image to app folder
-//        String sourcePath = getRealPathFromURI(selectedImgUri);
-//        Log.d(TAG,sourcePath + '1');
-//        String sourceFileName = sourcePath.substring(sourcePath.lastIndexOf("/")+1);
-//        String uploadedUri = Environment.getExternalStorageDirectory()+ File.separator + "gpa_files/"+sourceFileName;
-//        File f = new File(uploadedUri);
-//        if (!f.exists())
-//        {
-//            try {
-//                f.createNewFile();
-//                copyFile(new File(sourcePath), f);
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
-
         //Insert data to database
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         selectedImg.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        JSONObject json = new JSONObject();
-        try {
-            json.put("selectedImage", encodedImage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String gpa = json.toString();
-        Boolean insertSuccess = mydb.insertUser(extras.getString(DBHelper.USERS_COLUMN_NAME), extras.getString(DBHelper.USERS_COLUMN_PHONE), extras.getString(DBHelper.USERS_COLUMN_EMAIL), extras.getString(DBHelper.USERS_COLUMN_PASSWORD),Constants.PVS,gpa);
-        if(insertSuccess){
-            Toast.makeText(getApplicationContext(), "New User created!", Toast.LENGTH_SHORT).show();
+        if(encodedImage.equals(authImage)){
+            Toast.makeText(getApplicationContext(), "User successfully authenticated!", Toast.LENGTH_SHORT).show();
+            Bundle dataBundle = new Bundle();
+            dataBundle.putString(DBHelper.USERS_COLUMN_EMAIL, extras.getString(DBHelper.USERS_COLUMN_EMAIL));
+            Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
+            intent.putExtras(dataBundle);
+            startActivity(intent);
+        } else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Sign Up Successful, Please login to continue")
+            builder.setMessage("Graphical Password Authentication failed, Please try again!")
                     .setPositiveButton("Login", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
@@ -194,10 +124,8 @@ public class UploadActivity extends AppCompatActivity {
                     });
 
             AlertDialog d = builder.create();
-            d.setTitle("Success!");
+            d.setTitle("Failure!");
             d.show();
-        } else{
-            Toast.makeText(getApplicationContext(), "New User creation failure!", Toast.LENGTH_SHORT).show();
         }
     }
 }
