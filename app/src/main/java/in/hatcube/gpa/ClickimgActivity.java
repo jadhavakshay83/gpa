@@ -151,7 +151,8 @@ public class ClickimgActivity extends Activity {
         builder.setMessage("Sign Up Successful, Please login to continue")
                 .setPositiveButton("Login", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 });

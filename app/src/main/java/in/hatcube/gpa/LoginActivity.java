@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -63,12 +64,5 @@ public class LoginActivity extends AppCompatActivity {
                }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

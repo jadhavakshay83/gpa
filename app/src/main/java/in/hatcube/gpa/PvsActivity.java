@@ -102,9 +102,8 @@ public class PvsActivity extends AppCompatActivity {
 
 
     public void saveData() {
-        //Insert data to database
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        selectedImg.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        selectedImg.compress(Bitmap.CompressFormat.JPEG, 50, baos); //bm is the bitmap object
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         if(encodedImage.equals(authImage)){
             Toast.makeText(getApplicationContext(), "User successfully authenticated!", Toast.LENGTH_SHORT).show();
@@ -113,15 +112,14 @@ public class PvsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), LoggedinActivity.class);
             intent.putExtras(dataBundle);
             startActivity(intent);
-            finish();
         } else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Graphical Password Authentication failed, Please try again!")
                     .setPositiveButton("Login", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
-                            finish();
                         }
                     });
 
