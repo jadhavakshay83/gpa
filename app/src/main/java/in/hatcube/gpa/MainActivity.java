@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button signInButton, signUpButton;
+    Button signInButton, signUpButton, helpButton;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton = findViewById(R.id.signin);
         signUpButton = findViewById(R.id.signup);
+        helpButton = findViewById(R.id.help);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LogupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(intent);
             }
         });

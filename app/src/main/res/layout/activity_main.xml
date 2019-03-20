@@ -43,8 +43,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="80dp"
-            android:paddingEnd="80dp"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
             android:paddingTop="20dp">
 
             <Button
@@ -73,6 +73,18 @@
                 android:paddingTop="15dp"/>
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/help"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Usage Tips"
+            android:textSize="18sp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp"/>
 </LinearLayout>
 
 </RelativeLayout>
