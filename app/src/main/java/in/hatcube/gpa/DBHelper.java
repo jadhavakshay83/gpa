@@ -57,6 +57,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean updateGPA (String email, String gpa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USERS_COLUMN_GPA, gpa);
+
+        db.update(USERS_TABLE_NAME, contentValues,"email = ?",new String[] { email });
+        return true;
+    }
+
     public Cursor getUser(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "SELECT * FROM users WHERE email='"+email+"'", null );
