@@ -142,24 +142,56 @@ public class ClickimgActivity extends Activity {
             e.printStackTrace();
         }
         String gpa = json.toString();
-        if(mydb.insertUser(extras.getString(DBHelper.USERS_COLUMN_NAME), extras.getString(DBHelper.USERS_COLUMN_PHONE), extras.getString(DBHelper.USERS_COLUMN_EMAIL), extras.getString(DBHelper.USERS_COLUMN_PASSWORD),Constants.CPS,gpa)){
+
+        if(extras.containsKey(DBHelper.USERS_COLUMN_NAME) && extras.containsKey(DBHelper.USERS_COLUMN_PHONE)) {
+            insertUser(gpa);
+        } else {
+            updateUser(gpa);
+        }
+    }
+
+    public void insertUser(String gpa) {
+        Boolean insertSuccess = mydb.insertUser(extras.getString(DBHelper.USERS_COLUMN_NAME), extras.getString(DBHelper.USERS_COLUMN_PHONE), extras.getString(DBHelper.USERS_COLUMN_EMAIL), extras.getString(DBHelper.USERS_COLUMN_PASSWORD),Constants.CPS,gpa);
+        if(insertSuccess){
             Toast.makeText(getApplicationContext(), "New User created!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Sign Up Successful, Please login to continue")
+                    .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    });
+
+            AlertDialog d = builder.create();
+            d.setTitle("Success!");
+            d.show();
         } else{
             Toast.makeText(getApplicationContext(), "New User creation failure!", Toast.LENGTH_SHORT).show();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Sign Up Successful, Please login to continue")
-                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
+    }
 
-        AlertDialog d = builder.create();
-        d.setTitle("Success!");
-        d.show();
+    public void updateUser(String gpa) {
+        Boolean insertSuccess = mydb.updateGPA(extras.getString(DBHelper.USERS_COLUMN_EMAIL), gpa);
+        if(insertSuccess){
+            Toast.makeText(getApplicationContext(), "Password changed!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("GPA Changed successfully, Please login to continue")
+                    .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    });
+
+            AlertDialog d = builder.create();
+            d.setTitle("Success!");
+            d.show();
+        } else{
+            Toast.makeText(getApplicationContext(), "GPA Chang failure!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
